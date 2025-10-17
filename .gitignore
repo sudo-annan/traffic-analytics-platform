@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+*.log
+
+# Data
+data/tfl/raw/*
+data/weather/raw/*
+data/tfl/processed/*
+data/weather/processed/*
+!data/samples/
+
+# IDE
+.vscode/
+.idea/
+
+# System
+.DS_Store
+
+# Build
+dist/
+build/
