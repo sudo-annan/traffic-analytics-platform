@@ -1,12 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import trafficReducer from "../features/traffic/trafficSlice";
-import weatherReducer from "../features/weather/weatherSlice";
+import dashboardReducer from "../features/dashboard/dashboardSlice";
 
-export const store = configureStore({
+export default configureStore({
   reducer: {
-    traffic: trafficReducer,
-    weather: weatherReducer,
+    dashboard: dashboardReducer,
   },
 });
-
-export default store;

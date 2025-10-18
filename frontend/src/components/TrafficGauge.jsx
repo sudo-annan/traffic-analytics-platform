@@ -1,71 +1,54 @@
-import React from "react";
-import {
-  RadialBarChart,
-  RadialBar,
-  ResponsiveContainer,
-  PolarAngleAxis,
-} from "recharts";
+// src/components/TrafficGauge.jsx
+import { Gauge, gaugeClasses } from "@mui/x-charts";
 
-export default function TrafficGauge({ congestion }) {
-  // Determine color dynamically
-  const getGaugeColor = (value) => {
-    if (value < 30) return "#4ade80"; // green
-    if (value < 60) return "#facc15"; // yellow
-    return "#ef4444"; // red
-  };
-
-  const color = getGaugeColor(congestion);
-
-  // Normalize congestion to 0–100
-  const data = [{ name: "Congestion", value: congestion }];
+export default function TrafficGauge({ value }) {
+  // Choose color based on congestion %
+  let color = "#22c55e"; // green
+  if (value > 66.66) color = "#ef4444"; // red
+  else if (value > 33.33) color = "#facc15"; // yellow
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-md w-full transition-all hover:shadow-lg hover:scale-[1.01]">
-      <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">
-        Traffic Congestion Level
-      </h3>
-
-      <div className="flex justify-center items-center">
-        <ResponsiveContainer width="100%" height={250}>
-          <RadialBarChart
-            cx="50%"
-            cy="100%"
-            innerRadius="100%"
-            outerRadius="140%"
-            barSize={25}
-            startAngle={180}
-            endAngle={0}
-            data={data}
-          >
-            <PolarAngleAxis
-              type="number"
-              domain={[0, 100]}
-              angleAxisId={0}
-              tick={false}
-            />
-            <RadialBar
-              minAngle={15}
-              background
-              clockWise
-              dataKey="value"
-              fill={color}
-              cornerRadius={10}
-            />
-          </RadialBarChart>
-        </ResponsiveContainer>
+    <div className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center justify-center h-[350px]">
+      <h2 className="text-sm font-semibold mb-2 self-start">Traffic Congestion Level</h2>
+      <div className="flex-1 flex justify-center items-center w-full">
+        <Gauge
+          width={250}
+          height={160}
+          startAngle={-110}
+          endAngle={110}
+          value={value}
+          valueMin={0}
+          valueMax={100}
+          cornerRadius={20}
+          sx={{
+            [`& .${gaugeClasses.valueText}`]: {
+              fontSize: 20,
+              fontWeight: "bold",
+              fill: "#dc2626",
+            },
+            [`& .${gaugeClasses.valueArc}`]: {
+              fill: color,
+            },
+            [`& .${gaugeClasses.track}`]: {
+              fill: "#e5e7eb",
+            },
+          }}
+        />
       </div>
+      <p className="mt-2 text-lg font-semibold text-gray-700">{value.toFixed(1)}%</p>
 
-      <p
-        className={`text-center text-2xl font-bold mt-[-50px] ${
-          color === "#ef4444"
-            ? "text-red-500"
-            : color === "#facc15"
-            ? "text-yellow-400"
-            : "text-green-400"
-        }`}
-      >
-        {congestion.toFixed(1)}%
-      </p>
+      {/* Legend */}
+      <div className="flex justify-center gap-4 text-sm mt-3">
+        <div className="flex items-center gap-1">
+          <span className="w-3 h-3 bg-green-500 rounded-full"></span> <span>Low (0–33%)</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="w-3 h-3 bg-yellow-400 rounded-full"></span> <span>Moderate (33–66%)</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="w-3 h-3 bg-red-500 rounded-full"></span> <span>Severe (g.t 66%)</span>
+        </div>
+      </div>
     </div>
   );
 }

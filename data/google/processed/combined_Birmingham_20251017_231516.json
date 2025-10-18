@@ -1,0 +1,23 @@
+{
+  "extraction_timestamp": "2025-10-17T23:15:16.614058",
+  "city": "Birmingham",
+  "lat": 52.485,
+  "lon": -1.862,
+  "results": [
+    {
+      "route_name": "Birmingham - view",
+      "timestamp": "2025-10-17T23:15:16.614091",
+      "location": "52.485,-1.862",
+      "congestion_percentage": 0.464,
+      "average_delay_minutes": 0.116,
+      "traffic_level": "Light",
+      "color_breakdown": {
+        "red": 0.113,
+        "yellow": 0.036,
+        "green": 1.01
+      },
+      "extraction_method": "visual_analysis",
+      "screenshot_path": "/home/zeek/dev/traffic-analytics-platform/data/google/processed/Birmingham_20251017_231516.png"
+    }
+  ]
+}

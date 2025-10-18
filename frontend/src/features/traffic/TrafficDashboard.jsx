@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import MetricCard from "../../components/MetricCard";
 import TrafficGauge from "../../components/TrafficGauge";
-import TrafficHistoryChart from "../../components/TrafficHistoryChart";
-import WeatherTrafficCorrelation from "../../components/WeatherTrafficCorrelation";
+import TrafficHistoryChart from "../../components/TrafficHistoryTable";
+import WeatherTrafficCorrelation from "../../components/WeatherCorrelation";
 import WeatherPanel from "../weather/WeatherPanel";
 
 export default function TrafficDashboard() {

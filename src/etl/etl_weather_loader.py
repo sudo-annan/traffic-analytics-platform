@@ -26,7 +26,7 @@ def load_json(path):
 
 def main():
     data_dir = Path(__file__).resolve().parents[2] / "data" / "weather" / "processed"
-    files = sorted(data_dir.glob("weather_*.json"))
+    files = sorted(data_dir.glob("weather_*.json"), key=lambda f: f.stat().st_mtime)
     if not files:
         print("No weather JSON found.")
         return
@@ -38,13 +38,17 @@ def main():
     conn = connect_db()
     cur = conn.cursor()
 
+    # ✅ Ensure the table exists
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS weather_data (
             id SERIAL PRIMARY KEY,
             timestamp TIMESTAMP,
-            location TEXT,
+            city TEXT,
+            region TEXT,
             country TEXT,
+            lat NUMERIC,
+            lon NUMERIC,
             temp_c NUMERIC,
             condition TEXT,
             wind_kph NUMERIC,
@@ -58,28 +62,32 @@ def main():
         """
     )
 
+    # ✅ Insert normalized fields
     cur.execute(
         """
         INSERT INTO weather_data (
-            timestamp, location, country, temp_c, condition, wind_kph, humidity,
-            cloud, pressure_mb, feelslike_c, precip_mm, uv
+            timestamp, city, region, country, lat, lon, temp_c, condition,
+            wind_kph, humidity, cloud, pressure_mb, feelslike_c, precip_mm, uv
         ) VALUES (
-            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s
+            %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s
         );
         """,
         (
             datetime.fromisoformat(weather["timestamp"]),
-            weather["location"],
-            weather["country"],
-            weather["temp_c"],
-            weather["condition"],
-            weather["wind_kph"],
-            weather["humidity"],
-            weather["cloud"],
-            weather["pressure_mb"],
-            weather["feelslike_c"],
-            weather["precip_mm"],
-            weather["uv"],
+            weather.get("city"),
+            weather.get("region"),
+            weather.get("country"),
+            weather.get("lat"),
+            weather.get("lon"),
+            weather.get("temp_c"),
+            weather.get("condition"),
+            weather.get("wind_kph"),
+            weather.get("humidity"),
+            weather.get("cloud"),
+            weather.get("pressure_mb"),
+            weather.get("feelslike_c"),
+            weather.get("precip_mm"),
+            weather.get("uv"),
         ),
     )
 

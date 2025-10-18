@@ -1,0 +1,23 @@
+{
+  "extraction_timestamp": "2025-10-18T16:57:16.330884+00:00",
+  "city": "London",
+  "lat": 51.5074,
+  "lon": -0.1278,
+  "results": [
+    {
+      "route_name": "London - view",
+      "timestamp": "2025-10-18T16:57:16.330910+00:00",
+      "location": "51.5074,-0.1278",
+      "congestion_percentage": 6.914,
+      "average_delay_minutes": 1.7285,
+      "traffic_level": "Moderate",
+      "color_breakdown": {
+        "red": 1.679,
+        "yellow": 2.086,
+        "green": 7.352
+      },
+      "extraction_method": "visual_analysis",
+      "screenshot_path": "/home/zeek/dev/traffic-analytics-platform/data/google/processed/London_20251018_165715.png"
+    }
+  ]
+}
