@@ -1,10 +1,9 @@
-# backend/app/api/weather.py
 from fastapi import APIRouter, Query, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.weather import WeatherData
 
-router = APIRouter(prefix="/api/weather", tags=["Weather"])
+router = APIRouter(prefix="/weather", tags=["Weather"])
 
 @router.get("/current")
 def get_current(city: str = Query(...), db: Session = Depends(get_db)):

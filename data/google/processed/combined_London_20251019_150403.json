@@ -1,0 +1,23 @@
+{
+  "extraction_timestamp": "2025-10-19T15:04:04.162531+00:00",
+  "city": "London",
+  "lat": 51.5074,
+  "lon": -0.1278,
+  "results": [
+    {
+      "route_name": "London - view",
+      "timestamp": "2025-10-19T15:04:04.162553+00:00",
+      "location": "51.5074,-0.1278",
+      "congestion_percentage": 0.688,
+      "average_delay_minutes": 0.172,
+      "traffic_level": "Light",
+      "color_breakdown": {
+        "red": 0.251,
+        "yellow": 0.042,
+        "green": 0.717
+      },
+      "extraction_method": "visual_analysis",
+      "screenshot_path": "/data/google/processed/London_20251019_150403.png"
+    }
+  ]
+}

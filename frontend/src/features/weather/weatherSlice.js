@@ -4,7 +4,7 @@ import axios from "axios";
 const API_BASE_URL = "http://localhost:8000";
 
 export const fetchWeather = createAsyncThunk("weather/fetchWeather", async () => {
-  const response = await axios.get(`${API_BASE_URL}/weather/current`);
+  const response = await axios.get(`${API_BASE_URL}/api/v1/weather/current`);
   return response.data;
 });
 

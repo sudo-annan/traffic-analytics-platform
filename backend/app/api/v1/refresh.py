@@ -1,16 +1,13 @@
-# backend/app/api/refresh.py
 from fastapi import APIRouter, Query
 from pathlib import Path
 import subprocess, shlex, os, json
 from datetime import datetime
 
-router = APIRouter(prefix="/api", tags=["Refresh"])
+router = APIRouter(prefix="/data", tags=["Refresh"])
 
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
-# PROJECT_ROOT = Path("/src")
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
 
-
-@router.post("/data/refresh")
+@router.post("/refresh")
 def refresh_data(city: str = Query(...), lat: float = Query(...), lon: float = Query(...), headless: bool = Query(False)):
     """
     Trigger Google extractor + weather extractor + ETL loaders for given city and lat/lon.

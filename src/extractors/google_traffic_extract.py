@@ -21,7 +21,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from src.util.file_utils import cleanup_old_files  # ✅ import cleanup
+from src.util.file_utils import cleanup_old_files  # import cleanup
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -170,7 +170,7 @@ def main():
     processed_dir = Path(__file__).resolve().parents[2] / "data" / "google" / "processed"
     processed_dir.mkdir(parents=True, exist_ok=True)
 
-    # ✅ Cleanup old files before each new extraction
+  
     cleanup_old_files(processed_dir, city)
 
     ext = GoogleMapsTrafficExtractor(headless=headless)

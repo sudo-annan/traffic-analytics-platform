@@ -1,4 +1,3 @@
-# backend/app/api/traffic_endpoints.py
 from fastapi import APIRouter, Query, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -6,10 +5,7 @@ from app.models.google_traffic import GoogleTrafficData
 from app.models.weather import WeatherData
 from app.models.etl_run import EtlRun
 
-router = APIRouter(prefix="/api/traffic", tags=["Traffic"])
-
-
-router = APIRouter(prefix="/api/traffic", tags=["Traffic"])
+router = APIRouter(prefix="/traffic", tags=["Traffic"])
 
 @router.get("/summary")
 def get_summary(city: str = Query(...), db: Session = Depends(get_db)):

@@ -1,28 +1,61 @@
-const BASE_URL = "http://localhost:8000/api";
+import { CITY_COORDS } from '../config/cities';
 
-const CITY_COORDS = {
-  London: { lat: 51.5074, lon: -0.1278 },
-  Birmingham: { lat: 52.485, lon: -1.862 },
-  Manchester: { lat: 53.4808, lon: -2.2426 },
-  Leeds: { lat: 53.8008, lon: -1.5491 },
-  Liverpool: { lat: 53.4084, lon: -2.9916 },
+const BASE_URL = "http://localhost:8000/api/v1";
+
+// Generic API request helper
+async function apiRequest(endpoint, options = {}) {
+  const url = `${BASE_URL}${endpoint}`;
+  const response = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options,
+  });
+
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+// Specific API functions
+export const trafficApi = {
+  async refreshData(city) {
+    const { lat, lon } = CITY_COORDS[city];
+    return apiRequest(`/data/refresh?city=${encodeURIComponent(city)}&lat=${lat}&lon=${lon}`, {
+      method: "POST",
+    });
+  },
+
+  async fetchSummary(city) {
+    return apiRequest(`/traffic/summary?city=${encodeURIComponent(city)}`);
+  },
+
+  async fetchHistory(city) {
+    return apiRequest(`/traffic/history?city=${encodeURIComponent(city)}`);
+  },
+
+  // Combined request for better performance
+  async fetchDashboardData(city) {
+    const [summary, history] = await Promise.all([
+      this.fetchSummary(city),
+      this.fetchHistory(city)
+    ]);
+    return { summary, history };
+  },
 };
 
+// Legacy functions for backward compatibility
 export async function refreshData(city) {
-  const { lat, lon } = CITY_COORDS[city];
-  const url = `${BASE_URL}/data/refresh?city=${city}&lat=${lat}&lon=${lon}`;
-  const res = await fetch(url, { method: "POST" });
-  if (!res.ok) throw new Error("Failed to refresh data");
+  return trafficApi.refreshData(city);
 }
 
 export async function fetchSummary(city) {
-  const res = await fetch(`${BASE_URL}/traffic/summary?city=${city}`);
-  if (!res.ok) throw new Error("Failed to fetch summary");
-  return res.json();
+  return trafficApi.fetchSummary(city);
 }
 
 export async function fetchHistory(city) {
-  const res = await fetch(`${BASE_URL}/traffic/history?city=${city}`);
-  if (!res.ok) throw new Error("Failed to fetch history");
-  return res.json();
+  return trafficApi.fetchHistory(city);
 }

@@ -1,21 +1,16 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from app.api import refresh, traffic, weather
-from app.database import Base, engine
+from app.config import settings
+from app.cors import setup_cors
+from app.api.routers import api_router
 
-app = FastAPI(title="Traffic Analytics API")
-
-origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    allow_credentials=True,
+app = FastAPI(
+    title="Traffic Analytics API",
+    description="API for traffic and weather data analytics",
+    version="1.0.0"
 )
 
-Base.metadata.create_all(bind=engine)
+# Setup CORS
+setup_cors(app)
 
-app.include_router(refresh.router)
-app.include_router(traffic.router)
-app.include_router(weather.router)
+# Include all API routes
+app.include_router(api_router)

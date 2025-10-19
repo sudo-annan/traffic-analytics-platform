@@ -7,7 +7,7 @@ const API_BASE_URL = "http://localhost:8000";
 export const fetchTrafficSummary = createAsyncThunk(
   "traffic/fetchSummary",
   async () => {
-    const response = await axios.get(`${API_BASE_URL}/traffic/summary`);
+    const response = await axios.get(`${API_BASE_URL}/api/v1/traffic/summary`);
     return response.data;
   }
 );
@@ -15,7 +15,7 @@ export const fetchTrafficSummary = createAsyncThunk(
 export const fetchTrafficHistory = createAsyncThunk(
   "traffic/fetchHistory",
   async () => {
-    const response = await axios.get(`${API_BASE_URL}/traffic/history`);
+    const response = await axios.get(`${API_BASE_URL}/api/v1/traffic/history`);
     return response.data;
   }
 );
