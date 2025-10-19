@@ -43,7 +43,7 @@ A full-stack **Traffic Analytics Dashboard** that visualizes **real-time Google 
 
 ## 🐳 Setup Instructions
 
-### 🧩 Option 1 — Run with Docker (Recommended)
+### 🧩 Option 1 — Run with Docker
 Make sure you have **Docker** and **Docker Compose** installed.
 
 ```bash
