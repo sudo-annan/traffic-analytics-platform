@@ -7,6 +7,8 @@ from datetime import datetime
 router = APIRouter(prefix="/api", tags=["Refresh"])
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
+# PROJECT_ROOT = Path("/src")
+
 
 @router.post("/data/refresh")
 def refresh_data(city: str = Query(...), lat: float = Query(...), lon: float = Query(...), headless: bool = Query(False)):

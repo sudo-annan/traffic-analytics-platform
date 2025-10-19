@@ -1,19 +1,31 @@
 #!/usr/bin/env python3
 import json
+import os
 import psycopg2
 from pathlib import Path
 from datetime import datetime
 
-DB = {
-    "host": "localhost",
-    "port": 5432,
-    "dbname": "traffic_db",
-    "user": "traffic_user",
-    "password": "traffic_pass",
-}
+# DB = {
+#     "host": "localhost",
+#     "port": 5432,
+#     "dbname": "traffic_db",
+#     "user": "traffic_user",
+#     "password": "traffic_pass",
+# }
+
+# def connect_db():
+#     return psycopg2.connect(**DB)
 
 def connect_db():
+    DB = {
+        "host": os.getenv("DB_HOST", "localhost"),
+        "port": int(os.getenv("DB_PORT", "5432")),
+        "dbname": os.getenv("DB_NAME", "trafficdb"),
+        "user": os.getenv("DB_USER", "postgres"),
+        "password": os.getenv("DB_PASS", "postgres"),
+    }
     return psycopg2.connect(**DB)
+
 
 def load_json(path):
     with open(path, "r") as f:
@@ -80,9 +92,11 @@ def main():
 
     # Insert ETL run summary
     cur.execute("""
-        INSERT INTO etl_runs (source, city, total_routes, congestion_percentage, average_delay_minutes)
-        VALUES (%s, %s, %s, %s, %s) RETURNING id;
+    INSERT INTO etl_runs (source, city, total_routes, congestion_percentage, average_delay_minutes, run_timestamp)
+    VALUES (%s, %s, %s, %s, %s, NOW())
+    RETURNING id;
     """, ("google", payload["city"], total_routes, avg_congestion, avg_delay))
+
     run_id = cur.fetchone()[0]
 
     # Insert each route record linked to the run

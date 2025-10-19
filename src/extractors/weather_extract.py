@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
 weather_extract.py
-Fetches weather for coordinates (lat, lon).
-Usage:
-  python3 weather_extract.py --lat 52.4862 --lon -1.8904
+Fetches weather for coordinates (lat, lon) with cleanup.
 """
+
+
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 import argparse
 import json
@@ -13,6 +15,8 @@ import logging
 from datetime import datetime, UTC
 from pathlib import Path
 import requests
+
+from src.util.file_utils import cleanup_old_files  # ✅ import cleanup
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -45,9 +49,7 @@ def main():
     region = raw.get("location", {}).get("region", "")
     country = raw.get("location", {}).get("country", "")
 
-    # normalize
     c = raw.get("current", {})
-    
     if c.get("temp_c") is None:
         logger.warning("Weather API returned incomplete data; skipping write.")
         return 1

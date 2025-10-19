@@ -3,21 +3,31 @@
 etl_weather_loader.py
 Load processed WeatherAPI data into PostgreSQL.
 """
-
+import os
 import json
 import psycopg2
 from pathlib import Path
 from datetime import datetime
 
-DB = {
-    "host": "localhost",
-    "port": 5432,
-    "dbname": "traffic_db",
-    "user": "traffic_user",
-    "password": "traffic_pass",
-}
+# DB = {
+#     "host": "localhost",
+#     "port": 5432,
+#     "dbname": "traffic_db",
+#     "user": "traffic_user",
+#     "password": "traffic_pass",
+# }
+
+# def connect_db():
+#     return psycopg2.connect(**DB)
 
 def connect_db():
+    DB = {
+        "host": os.getenv("DB_HOST", "localhost"),
+        "port": int(os.getenv("DB_PORT", "5432")),
+        "dbname": os.getenv("DB_NAME", "trafficdb"),
+        "user": os.getenv("DB_USER", "postgres"),
+        "password": os.getenv("DB_PASS", "postgres"),
+    }
     return psycopg2.connect(**DB)
 
 def load_json(path):

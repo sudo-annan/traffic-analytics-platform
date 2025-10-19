@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary
+requests
+opencv-python-headless
+undetected-chromedriver
+numpy
+setuptools
