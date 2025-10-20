@@ -8,8 +8,6 @@ Workflow:
 2️⃣ Save full raw JSONs into data/tfl/raw/.
 3️⃣ Normalize and merge both into one combined JSON.
 4️⃣ Save processed combined JSON into data/tfl/processed/ (used by ETL).
-
-Author: Annan (Full Stack Developer Assessment)
 """
 
 import os
